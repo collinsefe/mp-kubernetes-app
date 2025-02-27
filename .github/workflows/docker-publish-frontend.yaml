@@ -42,6 +42,7 @@ jobs:
 
       - name: Build Docker image
         run: |
+          cd frontend
           docker build -t ${{ secrets.DOCKER_USERNAME }}/mp-frontend-app:${{ github.sha }} .
           docker tag ${{ secrets.DOCKER_USERNAME }}/mp-frontend-app:${{ github.sha }} ${{ secrets.DOCKER_USERNAME }}/mp-frontend-app:latest
 
