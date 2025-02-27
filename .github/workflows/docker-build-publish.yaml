@@ -100,7 +100,7 @@ jobs:
       # Step 9: Deploy the frontend, backend, and cache app using kubectl/helm
       - name: Deploy Frontend App using Helm
         run: |
-          cd helm/myapp-charts/templates
+          cd ./helm/mpapp-charts/templates
           kubectl apply -f .
     
   
