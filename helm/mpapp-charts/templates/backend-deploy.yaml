@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: "{{ .Values.appimage }}"  # Replace with your custom backend image
+        image: "mp-backend-app"  #{{ .Values.appimage }}"  # Replace with your custom backend image
         ports:
         - containerPort: 8000
         env:

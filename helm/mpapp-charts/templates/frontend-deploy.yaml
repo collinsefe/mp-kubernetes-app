@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: "{{ .Values.appimage }}" # Replace with your custom frontend image
+        image: "mp-frontend-app"  #"{{ .Values.appimage }}" # Replace with your custom frontend image
         ports:
         - containerPort: 80
         resources:
