@@ -1,0 +1,27 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build the FrontEnd Docker image 1
+      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+
+    - name: Push the FrontEnd Docker image
+      run: docker push IMAGE_NAME 
+
+    - name: Build the Backend Docker image 1
+      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+
+    - name: Push the Backen Docker image
+      run: docker push IMAGE_NAME 
