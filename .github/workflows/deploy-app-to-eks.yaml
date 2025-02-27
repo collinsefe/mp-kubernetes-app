@@ -1,0 +1,62 @@
+name: Build and Publish Docker Image
+
+on:
+  push:
+    branches: [ "main", "dev" ]
+    paths: 
+      backend
+      frontend
+      cache
+  pull_request:
+    branches: [ "main" ]
+  
+  workflow_dispatch:
+
+env:
+  # Use docker.io for Docker Hub if empty
+  REGISTRY: hub.docker.com 
+  # IMAGE_NAME: ${{ github.repository }}
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  # S3 bucket for the Terraform state
+  TF_STATE_BUCKET: ${{ secrets.TF_STATE_BUCKET}}
+  AWS_REGION: eu-west-2
+  EKS_CLUSTER: kitops-eks
+
+
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+ # Step 7: Configure AWS credentials for EKS
+      
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+        # Step 8: Get Kube config file
+      - name: Get Kube config file
+        run: aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name ${{ env.EKS_CLUSTER }}
+
+        # Step 9: Deploy the frontend, backend, and cache app using kubectl/helm
+      - name: Deploy Frontend App using Helm
+        run: |
+            cd ./helm/mpapp-charts/templates
+            kubectl apply -f .
+
+
+
