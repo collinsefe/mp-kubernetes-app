@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: redis-pv
+spec:
+  capacity:
+    storage: 10Gi  # Adjust based on your needs
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: gp2  # Use the AWS default storage class, you can also create your own
+  volumeMode: Filesystem
+  awsElasticBlockStore:
+    volumeID: <EBS_VOLUME_ID>  # Provide the ID of the EBS volume (e.g., vol-xxxxxxxx)
+    fsType: ext4  # Choose the file system type (usually ext4)

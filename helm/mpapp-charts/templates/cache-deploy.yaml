@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stock-cache
+spec:
+  replicas: 2  # Increase replicas for high availability
+  selector:
+    matchLabels:
+      app: stock-cache
+  template:
+    metadata:
+      labels:
+        app: stock-cache
+    spec:
+      containers:
+      - name: stock-cache
+        image: "{{ .Values.appimage }}"  # Replace with your custom image
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: "prod"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "200m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
