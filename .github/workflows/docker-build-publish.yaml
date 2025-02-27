@@ -61,3 +61,14 @@ jobs:
         run: |
             docker push ${{ secrets.DOCKER_USERNAME }}/mp-backend-app:${{ github.sha }}
             docker push ${{ secrets.DOCKER_USERNAME }}/mp-backend-app:latest
+      
+      - name: Build Cache Docker image
+        run: |
+            cd backend
+            docker build -t ${{ secrets.DOCKER_USERNAME }}/mp-cache-app:${{ github.sha }} .
+            docker tag ${{ secrets.DOCKER_USERNAME }}/mp-cache-app:${{ github.sha }} ${{ secrets.DOCKER_USERNAME }}/mp-cache-app:latest
+      
+      - name: Push Cache Docker image to Docker Hub
+        run: |
+            docker push ${{ secrets.DOCKER_USERNAME }}/mp-cache-app:${{ github.sha }}
+            docker push ${{ secrets.DOCKER_USERNAME }}/mp-cache-app:latest
