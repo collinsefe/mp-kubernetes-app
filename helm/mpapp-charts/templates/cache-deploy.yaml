@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: stock-cache
-        image: "mp-cache-app"   #"{{ .Values.appimage }}"  # Replace with your custom image
+        image: "collinsefe/mp-cache-app"   #"{{ .Values.appimage }}"  # Replace with your custom image
         ports:
         - containerPort: 8080
         env:
