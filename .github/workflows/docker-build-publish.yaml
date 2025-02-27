@@ -3,6 +3,10 @@ name: Build and Publish Docker Image
 on:
   push:
     branches: [ "main", "dev" ]
+    paths: 
+      backend
+      frontend
+      cache
   pull_request:
     branches: [ "main" ]
   
